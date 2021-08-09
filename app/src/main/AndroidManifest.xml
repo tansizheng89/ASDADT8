@@ -16,6 +16,9 @@
             android:name=".CompaniesReviews"
             android:exported="true" />
         <activity android:name=".ReviewListFetchActivity" />
+        <activity
+            android:name=".ReviewCompanyListFetchActivity"
+            android:exported="true" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

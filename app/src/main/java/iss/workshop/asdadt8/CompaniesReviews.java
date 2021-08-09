@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -16,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CompaniesReviews extends AppCompatActivity {
+public class CompaniesReviews extends AppCompatActivity implements ListAllReviewAdapter.ItemClickListener {
 
     protected RecyclerView mRecyclerView;
     protected ListAllReviewAdapter mAdapter;
@@ -56,7 +57,7 @@ public class CompaniesReviews extends AppCompatActivity {
                 mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
                 mRecyclerView.setHasFixedSize(true);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(CompaniesReviews.this));
-                mAdapter = new ListAllReviewAdapter(mDataset);
+                mAdapter = new ListAllReviewAdapter(mDataset,CompaniesReviews.this);
                 mRecyclerView.setAdapter(mAdapter);
 
 
@@ -68,5 +69,14 @@ public class CompaniesReviews extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+        Intent intent = new Intent(this,ReviewCompanyListFetchActivity.class);
+        intent.putExtra("CompanyName",mDataset.get(position).getCompanyName());
+        startActivity(intent);
+        //this will get the position of the clicked item from the adaptor
     }
 }

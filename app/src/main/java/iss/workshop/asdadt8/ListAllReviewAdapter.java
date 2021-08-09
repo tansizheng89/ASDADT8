@@ -23,12 +23,14 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView textView;
         private final RatingBar ratingBar;
+        ItemClickListener clickListener;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, ItemClickListener clickListener) {
             super(view);
             textView = (TextView) view.findViewById(R.id.textView);
             this.ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
-            itemView.setTag(itemView);
+            this.clickListener = clickListener;
+            //itemView.setTag(itemView);
             itemView.setOnClickListener(this);
         }
 
@@ -39,13 +41,14 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
 
         @Override
         public void onClick(View v) {
-           // clickListener.onClick(v, getBindingAdapterPosition());
+            clickListener.onItemClick(getBindingAdapterPosition());
         }
     }
 
 
-    public ListAllReviewAdapter(List<CompaniesReviewDTO> dataSet) {
+    public ListAllReviewAdapter(List<CompaniesReviewDTO> dataSet, ItemClickListener clickListener) {
         localDataSet = dataSet;
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -54,7 +57,7 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.text_row_item, viewGroup, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view, clickListener);
     }
 
 
@@ -72,5 +75,9 @@ public class ListAllReviewAdapter extends RecyclerView.Adapter<ListAllReviewAdap
     @Override
     public int getItemCount() {
         return localDataSet.size();
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(int position);
     }
 }
